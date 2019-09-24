@@ -15,18 +15,19 @@
 
 <div class="container">
   <h2 class='text'>Details</h2>
-           
+
     <form name='' method='POST' action="">
       <!-- Search form -->
     <input class="form-control" type="text" placeholder="Search" aria-label="Search" style='width:250px' id='search'> 
     </form>
-  <table class="table table-bordered" style='margin-top:1%;'>
+
+  <table class="table" style='margin-top:1%;'>
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Address</th>
-        <th>Visit</th>
-        <th>Status</th>
+        <th scope="col">Name</th>
+        <th scope="col">Address</th>
+        <th scope="col">Visit</th>
+        <th scope="col">Status</th>
       </tr>
     </thead>
     <tbody id='myTable'>
@@ -34,18 +35,18 @@
     {% for d in data %}
     {% csrf_token %}
       <tr>
-        <td>{{ d.name }}</td>
-        <td>{{ d.address }}</td>
-        <td>{{ d.visit }}</td>
+        <td scope="row">{{ d.name }}</td>
+        <td scope="row">{{ d.address }}</td>
+        <td scope="row">{{ d.visit }}</td>
          {% if d.visit == 1 %}
             {% if d.status < 1 %}
-                <td><a href="{% url 'update_status'  d.id   %}"><button type="button" class="btn btn-success">Visited</button></a>
+                <td scope="row"><a href="{% url 'update_status'  d.id   %}"><button type="button" class="btn btn-success">Visited</button></a>
             {% else %}
                 <td></td>
             {% endif %}
         {% elif d.visit == 2 %}
             {% if d.status < 2 %}
-                <td><a href="{% url 'update_status'  d.id   %}"><button type="button" class="btn btn-success">Visited</button></a>
+                <td scope="row"><a href="{% url 'update_status'  d.id   %}"><button type="button" class="btn btn-success">Visited</button></a>
             
             {% else %}
                 <td></td>
@@ -53,7 +54,7 @@
         {% endif %} 
 
 
-        {% comment %} <td>{{ d.status }}</td> {% endcomment %}
+      
       </tr>
     {% endfor %}
     </form>
@@ -84,6 +85,7 @@
 {% endif %}
 
 </div>
+
 <script>
   $(document).ready(function(){
     $('#search').on('keyup',function(){
@@ -91,8 +93,8 @@
         $("#myTable tr").filter(function(){
             $(this).toggle($(this).text().toLowerCase().indexOf(value)>-1)
         });
-    })
-  })
+    });
+  });
 </script>
 </body>
 </html>
