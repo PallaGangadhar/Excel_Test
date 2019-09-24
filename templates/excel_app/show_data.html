@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2>Details</h2>
+           
+    <form name='' method='POST' action="">
+      <!-- Search form -->
+    <input class="form-control" type="text" placeholder="Search" aria-label="Search" style='width:250px' id='search'> 
+    </form>
+  <table class="table table-bordered" style='margin-top:1%;'>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Visit</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id='myTable'>
+    {% csrf_token %}
+    {% for d in data %}
+    {% csrf_token %}
+      <tr>
+        <td>{{ d.name }}</td>
+        <td>{{ d.address }}</td>
+        <td>{{ d.visit }}</td>
+         {% if d.visit == 1 %}
+            {% if d.status < 1 %}
+                <td><a href="{% url 'update_status'  d.id   %}"><button type="button" class="btn btn-success">Visited</button></a>
+            {% else %}
+                <td></td>
+            {% endif %}
+        {% elif d.visit == 2 %}
+            {% if d.status < 2 %}
+                <td><a href="{% url 'update_status'  d.id   %}"><button type="button" class="btn btn-success">Visited</button></a>
+            
+            {% else %}
+                <td></td>
+            {% endif %}
+        {% endif %} 
+
+
+        {% comment %} <td>{{ d.status }}</td> {% endcomment %}
+      </tr>
+    {% endfor %}
+    </form>
+    </tbody>
+  </table>
+ 
+  {% if data.has_other_pages %}
+  <ul class="pagination">
+  
+    {% if data.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ data.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+    {% endif %}
+    {% for i in data.paginator.page_range %}
+      {% if data.number == i %}
+        <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li class="page-item" ><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if data.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ data.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+
+</div>
+<script>
+  $(document).ready(function(){
+    $('#search').on('keyup',function(){
+      var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function(){
+            $(this).toggle($(this).text().toLowerCase().indexOf(value)>-1)
+        });
+    })
+  })
+</script>
+</body>
+</html>
