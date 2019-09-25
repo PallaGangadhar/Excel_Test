@@ -20,7 +20,7 @@
       <!-- Search form -->
     <input class="form-control" type="text" placeholder="Search" aria-label="Search" style='width:250px' id='search'> 
     </form>
-
+  <div class='table-wrapper-scroll-y'>
   <table class="table" style='margin-top:1%;'>
     <thead>
       <tr>
@@ -60,8 +60,8 @@
     </form>
     </tbody>
   </table>
- 
-  {% if data.has_other_pages %}
+ </div>
+  {% comment %} {% if data.has_other_pages %}
   <ul class="pagination">
   
     {% if data.has_previous %}
@@ -82,7 +82,7 @@
       <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
     {% endif %}
   </ul>
-{% endif %}
+{% endif %} {% endcomment %}
 
 </div>
 

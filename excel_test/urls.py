@@ -23,6 +23,7 @@ from django.conf import settings
 urlpatterns = [
     path('load_excel',views.load_excel,name='load_excel'),
     path('',views.show_data,name='show_data'),
+    path('sign_up/',views.signup,name='signup'),
     path('update_status/<did>',views.update_status,name='update_status'),
     path('admin/', admin.site.urls),
 ] +  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

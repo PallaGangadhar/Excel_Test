@@ -1,0 +1,15 @@
+<html>
+    <head>
+    </head>
+<body>
+<form id="user_form" method="post" action="" enctype="multipart/form-data">
+
+ {% csrf_token %}
+
+ {{ user_form.username }}
+ {{ user_form.email }}
+ {{ user_form.password }}
+
+<input type="submit" name="submit" value="Register" />
+</body>
+</html>

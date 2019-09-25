@@ -4,6 +4,8 @@ import pandas as pd
 from excel_app.models import Test_Excel
 import datetime
 from django.core.paginator import Paginator
+from excel_app.forms import UserForm
+
 # Create your views here.
 
 def load_excel(request):
@@ -24,20 +26,20 @@ def load_excel(request):
 
 def show_data(request):
     data = Test_Excel.objects.all()
-    page = request.GET.get('page',1)
-    paginator = Paginator(data,3)
-    try:
-        users = paginator.page(page)
-    except PageNotAnInteger:
-        users = paginator.page(1)
-    except EmptyPage:
-        users = paginator.page(paginator.num_pages)
+    # page = request.GET.get('page',1)
+    # paginator = Paginator(data,3)
+    # try:
+    #     users = paginator.page(page)
+    # except PageNotAnInteger:
+    #     users = paginator.page(1)
+    # except EmptyPage:
+    #     users = paginator.page(paginator.num_pages)
 
     # for i in data:
     #     d = Test_Excel.objects.get(id=i.id)
     #     d.status = 0
     #     d.save()
-    return render(request,'excel_app/show_data.html',{'data':users})
+    return render(request,'excel_app/show_data.html',{'data':data})
 
 def update_status(request,did):
     data = Test_Excel.objects.all()
@@ -57,3 +59,7 @@ def update_status(request,did):
 #         c = c + 1
 #         if c == 1:
 #             t = Test_Excel()
+
+def signup(request):
+    user_form = UserForm()
+    return render(request,'excel_app/signup.html',{"user_form":user_form})
